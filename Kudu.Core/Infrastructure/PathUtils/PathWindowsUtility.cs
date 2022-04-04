@@ -121,7 +121,7 @@ namespace Kudu.Core.Infrastructure
             return probPaths.FirstOrDefault(path => Directory.Exists(path));
         }
 
-        internal override string ResolveMSBuild16Dir()
+        internal override string ResolveMSBuild16Dir(bool IsDotNet31Project = false)
         {
             string programFiles = SystemEnvironment.GetFolderPath(SystemEnvironment.SpecialFolder.ProgramFilesX86);
             List<string> probPaths = new List<string>
@@ -133,7 +133,7 @@ namespace Kudu.Core.Infrastructure
                 // above is for public kudu, below is for azure
             };
 
-            if (IsDotNet31Project())
+            if (IsDotNet31Project)
             {
                 probPaths.Add(Path.Combine(programFiles, "MSBuilds","16.7.0","MSBuild", "Current", "Bin"));
             }
@@ -144,11 +144,7 @@ namespace Kudu.Core.Infrastructure
 
             return probPaths.FirstOrDefault(path => Directory.Exists(path));
         }
-        private bool IsDotNet31Project()
-        {
-            var framework = VsHelper.GetTargetFramework(""); /* to check */
-            return framework.StartsWith("net3.1");
-        }
+        
         internal override string ResolveMSBuild1670Dir()
         {
             string programFiles = SystemEnvironment.GetFolderPath(SystemEnvironment.SpecialFolder.ProgramFilesX86);
