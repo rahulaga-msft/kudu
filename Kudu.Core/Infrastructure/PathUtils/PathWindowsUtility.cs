@@ -132,11 +132,23 @@ namespace Kudu.Core.Infrastructure
                 Path.Combine(programFiles, "Microsoft Visual Studio", "2019", "BuildTools",   "MSBuild", "Current", "Bin"), // msbuild tools
                 // above is for public kudu, below is for azure
             };
-            probPaths.Add(Path.Combine(programFiles, "MSBuild-16.4", "MSBuild", "Current", "Bin"));
+
+            if (IsDotNet31Project())
+            {
+                probPaths.Add(Path.Combine(programFiles, "MSBuilds","16.7.0","MSBuild", "Current", "Bin"));
+            }
+            else
+            {
+                probPaths.Add(Path.Combine(programFiles, "MSBuild-16.4", "MSBuild", "Current", "Bin"));
+            }
 
             return probPaths.FirstOrDefault(path => Directory.Exists(path));
         }
-
+        private bool IsDotNet31Project()
+        {
+            var framework = VsHelper.GetTargetFramework(""); /* to check */
+            return framework.StartsWith("net3.1");
+        }
         internal override string ResolveMSBuild1670Dir()
         {
             string programFiles = SystemEnvironment.GetFolderPath(SystemEnvironment.SpecialFolder.ProgramFilesX86);
