@@ -1,4 +1,5 @@
 ﻿using Kudu.Contracts.Settings;
+using Kudu.Core.Infrastructure;
 using System;
 using System.Text;
 
@@ -20,8 +21,8 @@ namespace Kudu.Core.Deployment.Generator
             ProjectFilePath = CleanPath(projectFilePath);
             SolutionPath = CleanPath(solutionPath);
             CommandArgument = commandArgument;
+            environment.TargetFramework = VsHelper.GetTargetFramework(ProjectFilePath); 
         }
-
         protected override string ScriptGeneratorCommandArguments
         {
             get

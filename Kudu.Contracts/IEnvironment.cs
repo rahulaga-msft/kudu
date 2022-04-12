@@ -29,5 +29,6 @@
         string AppBaseUrlPrefix { get; }        // e.g. siteName.azurewebsites.net
         string RequestId { get; }               // e.g. x-arr-log-id or x-ms-request-id header value
         string SitePackagesPath { get; }        // e.g. /data/SitePackages
+        string TargetFramework { get; set; }    // e.g. netcoreapp3.1
     }
 }

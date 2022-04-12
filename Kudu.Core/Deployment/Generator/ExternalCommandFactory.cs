@@ -73,7 +73,7 @@ namespace Kudu.Core.Deployment.Generator
             UpdateToDefaultIfNotSet(exe, WellKnownEnvironmentVariables.WebRootPath, _environment.WebRootPath, logger);
             UpdateToDefaultIfNotSet(exe, WellKnownEnvironmentVariables.MSBuildPath, PathUtilityFactory.Instance.ResolveMSBuildPath(), logger);
             UpdateToDefaultIfNotSet(exe, WellKnownEnvironmentVariables.MSBuild15Dir, PathUtilityFactory.Instance.ResolveMSBuild15Dir(), logger);
-            UpdateToDefaultIfNotSet(exe, WellKnownEnvironmentVariables.MSBuild16Dir, PathUtilityFactory.Instance.ResolveMSBuild16Dir(), logger);
+            UpdateToDefaultIfNotSet(exe, WellKnownEnvironmentVariables.MSBuild16Dir, PathUtilityFactory.Instance.ResolveMSBuild16Dir(IsDotNet31Project()), logger);
             UpdateToDefaultIfNotSet(exe, WellKnownEnvironmentVariables.MSBuild1670Dir, PathUtilityFactory.Instance.ResolveMSBuild1670Dir(), logger);
             UpdateToDefaultIfNotSet(exe, WellKnownEnvironmentVariables.KuduSyncCommandKey, KuduSyncCommand, logger);
             UpdateToDefaultIfNotSet(exe, WellKnownEnvironmentVariables.NuGetExeCommandKey, NuGetExeCommand, logger);
@@ -165,6 +165,12 @@ namespace Kudu.Core.Deployment.Generator
                 logger.Log("Using custom deployment setting for {0} custom value is '{1}'.", key, value);
                 exe.EnvironmentVariables[key] = value;
             }
+        }
+
+        private bool IsDotNet31Project()
+        {
+            var framework = _environment.TargetFramework;
+            return framework.StartsWith("netcoreapp3.1");
         }
 
         private static string QuotePath(string path)
