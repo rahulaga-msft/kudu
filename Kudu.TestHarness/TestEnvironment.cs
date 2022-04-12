@@ -172,5 +172,6 @@ namespace Kudu.TestHarness
             get;
             set;
         }
+        public string TargetFramework { get; set; }
     }
 }

@@ -372,6 +372,8 @@ namespace Kudu.Core
             private set;
         }
 
+        public string TargetFramework { get; set; }
+
         public static bool IsAzureEnvironment()
         {
             return !String.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID"));
